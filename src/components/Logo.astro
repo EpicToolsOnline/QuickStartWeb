@@ -1,0 +1,37 @@
+---
+import logoMarkup from "../assets/logo.svg?raw";
+---
+
+<a href="/" class="logo" aria-label="EpicToolsOnline home">
+  <Fragment set:html={logoMarkup} />
+  <span class="wordmark">EpicToolsOnline</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .logo :global(svg) {
+    display: block;
+    width: 96px;
+    height: 96px;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+  }
+
+  .logo:hover .wordmark {
+    color: var(--color-text);
+  }
+</style>

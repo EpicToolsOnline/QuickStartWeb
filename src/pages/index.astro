@@ -1,0 +1,132 @@
+---
+import "../styles/tokens.css";
+import "../styles/base.css";
+import Logo from "../components/Logo.astro";
+import Footer from "../components/Footer.astro";
+
+// Same catalog as the Python app's apps.json, kept in sync by hand for now
+const apps = [
+  { token: "7zip", name: "7-Zip" },
+  { token: "Notepad++", name: "Notepad++" },
+  { token: "VLC", name: "VLC Media Player" },
+  { token: "Chrome", name: "Google Chrome" },
+  { token: "Firefox", name: "Mozilla Firefox" },
+  { token: "Discord", name: "Discord" },
+  { token: "Spotify", name: "Spotify" },
+  { token: "Steam", name: "Steam" },
+  { token: "VSCode", name: "Visual Studio Code" },
+  { token: "Git", name: "Git" },
+  { token: "OBS", name: "OBS Studio" },
+  { token: "GIMP", name: "GIMP" },
+  { token: "Slack", name: "Slack" },
+  { token: "Zoom", name: "Zoom" },
+  { token: "Audacity", name: "Audacity" },
+  { token: "PowerToys", name: "Microsoft PowerToys" },
+  { token: "LibreOffice", name: "LibreOffice" },
+  { token: "Thunderbird", name: "Mozilla Thunderbird" },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuickStart</title>
+    <meta name="description" content="Pick your apps, get one exe, install everything. Open source." />
+  </head>
+  <body>
+    <div class="top-bar">
+      <Logo />
+    </div>
+
+    <main>
+      <p class="intro">Tick what you want, hit the button, run the exe. That's it.</p>
+
+      <div class="app-grid stack">
+        {apps.map((app) => (
+          <label class="card app-option">
+            <input type="checkbox" class="app-checkbox" data-token={app.token} />
+            {app.name}
+          </label>
+        ))}
+      </div>
+
+      <button id="generate" class="button" disabled>
+        Pick at least one app
+      </button>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .top-bar {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4) 0;
+  }
+
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .intro {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .app-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+  }
+
+  #generate {
+    width: 100%;
+  }
+
+  #generate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+  const checkboxes = document.querySelectorAll<HTMLInputElement>(".app-checkbox");
+  const button = document.getElementById("generate") as HTMLButtonElement;
+
+  function updateButton() {
+    const picked = Array.from(checkboxes)
+      .filter((box) => box.checked)
+      .map((box) => box.dataset.token);
+
+    if (picked.length === 0) {
+      button.disabled = true;
+      button.textContent = "Pick at least one app";
+      button.removeAttribute("data-href");
+      return;
+    }
+
+    button.disabled = false;
+    button.textContent = `Download QuickStart (${picked.length} apps)`;
+    button.setAttribute("data-href", `/api/download?apps=${picked.join(",")}`);
+  }
+
+  checkboxes.forEach((box) => box.addEventListener("change", updateButton));
+
+  button.addEventListener("click", () => {
+    const href = button.getAttribute("data-href");
+    if (href) window.location.href = href;
+  });
+</script>
