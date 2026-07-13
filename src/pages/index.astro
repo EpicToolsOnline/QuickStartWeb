@@ -76,6 +76,7 @@ const categories = [
   <body>
     <div class="top-bar">
       <Logo />
+      <p class="powered-by">Powered by <span class="brand">EpicToolsOnline</span></p>
     </div>
 
     <main>
@@ -145,6 +146,19 @@ const categories = [
     max-width: var(--max-width);
     margin: 0 auto;
     padding: var(--space-5) var(--space-4) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .powered-by {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .powered-by .brand {
+    color: var(--color-accent);
+    font-weight: 700;
   }
 
   main {
