@@ -10,6 +10,18 @@ const categories = [
     apps: [
       { token: "7zip", name: "7-Zip", desc: "Open and create zip, rar, and other archive files" },
       { token: "PowerToys", name: "Microsoft PowerToys", desc: "Extra window and productivity tools for Windows" },
+      { token: "WinRAR", name: "WinRAR", desc: "Archive tool, alternative to 7-Zip" },
+      { token: "CCleaner", name: "CCleaner", desc: "Cleans temp files and junk off your system" },
+      { token: "Everything", name: "Everything", desc: "Instant file search across your whole drive" },
+      { token: "ShareX", name: "ShareX", desc: "Screenshots, screen recording, and file sharing" },
+      { token: "Greenshot", name: "Greenshot", desc: "Lightweight screenshot tool" },
+      { token: "Etcher", name: "balenaEtcher", desc: "Flashes OS images to USB drives and SD cards" },
+      { token: "Rufus", name: "Rufus", desc: "Creates bootable USB drives" },
+      { token: "CPUZ", name: "CPU-Z", desc: "Shows detailed info about your CPU and hardware" },
+      { token: "CrystalDiskInfo", name: "CrystalDiskInfo", desc: "Checks your drive's health" },
+      { token: "HWMonitor", name: "HWMonitor", desc: "Monitors system temperatures and voltages" },
+      { token: "FileZilla", name: "FileZilla", desc: "FTP client for uploading and downloading files" },
+      { token: "qBittorrent", name: "qBittorrent", desc: "Torrent client" },
     ],
   },
   {
@@ -18,6 +30,17 @@ const categories = [
       { token: "Notepad++", name: "Notepad++", desc: "A lightweight text and code editor" },
       { token: "VSCode", name: "Visual Studio Code", desc: "Microsoft's code editor for pretty much any language" },
       { token: "Git", name: "Git", desc: "Tracks changes to code over time" },
+      { token: "NodeJS", name: "Node.js", desc: "JavaScript runtime for running code outside a browser" },
+      { token: "Python", name: "Python", desc: "Python programming language" },
+      { token: "Temurin17", name: "Eclipse Temurin 17 (Java)", desc: "Java Development Kit, version 17" },
+      { token: "Docker", name: "Docker Desktop", desc: "Runs containerized apps and services" },
+      { token: "VirtualBox", name: "VirtualBox", desc: "Runs virtual machines on your PC" },
+      { token: "SublimeText", name: "Sublime Text", desc: "Fast, minimal text editor" },
+      { token: "IntelliJCommunity", name: "IntelliJ IDEA Community", desc: "Java-focused IDE" },
+      { token: "PyCharmCommunity", name: "PyCharm Community", desc: "Python-focused IDE" },
+      { token: "AndroidStudio", name: "Android Studio", desc: "Official IDE for building Android apps" },
+      { token: "Postman", name: "Postman", desc: "Tests and debugs API requests" },
+      { token: "UnityHub", name: "Unity Hub", desc: "Manages Unity game engine installs and projects" },
     ],
   },
   {
@@ -25,6 +48,9 @@ const categories = [
     apps: [
       { token: "Chrome", name: "Google Chrome", desc: "Google's web browser" },
       { token: "Firefox", name: "Mozilla Firefox", desc: "An open source web browser" },
+      { token: "Brave", name: "Brave Browser", desc: "Chromium-based browser with built-in ad blocking" },
+      { token: "Opera", name: "Opera", desc: "Browser with a built-in VPN and sidebar apps" },
+      { token: "TorBrowser", name: "Tor Browser", desc: "Browses the web anonymously through the Tor network" },
     ],
   },
   {
@@ -34,6 +60,11 @@ const categories = [
       { token: "Slack", name: "Slack", desc: "Team chat for work" },
       { token: "Zoom", name: "Zoom", desc: "Video calls and meetings" },
       { token: "Thunderbird", name: "Mozilla Thunderbird", desc: "A desktop email client" },
+      { token: "Telegram", name: "Telegram", desc: "Messaging app focused on speed" },
+      { token: "WhatsApp", name: "WhatsApp", desc: "Messaging app, desktop client" },
+      { token: "TeamViewer", name: "TeamViewer", desc: "Remote desktop access and support" },
+      { token: "Skype", name: "Skype", desc: "Video and voice calls" },
+      { token: "Signal", name: "Signal", desc: "Encrypted messaging app" },
     ],
   },
   {
@@ -43,24 +74,48 @@ const categories = [
       { token: "Audacity", name: "Audacity", desc: "Records and edits audio" },
       { token: "OBS", name: "OBS Studio", desc: "Records or streams your screen" },
       { token: "Spotify", name: "Spotify", desc: "Streams music and podcasts" },
-    ],
-  },
-  {
-    name: "Productivity",
-    apps: [
-      { token: "LibreOffice", name: "LibreOffice", desc: "A free office suite, word processor and spreadsheets included" },
-    ],
-  },
-  {
-    name: "Gaming",
-    apps: [
-      { token: "Steam", name: "Steam", desc: "Valve's PC gaming store and launcher" },
+      { token: "HandBrake", name: "HandBrake", desc: "Converts video files between formats" },
     ],
   },
   {
     name: "Design",
     apps: [
       { token: "GIMP", name: "GIMP", desc: "A free, open source image editor" },
+      { token: "Inkscape", name: "Inkscape", desc: "Vector graphics editor" },
+      { token: "Krita", name: "Krita", desc: "Digital painting and illustration tool" },
+      { token: "PaintDotNet", name: "Paint.NET", desc: "Simple image editor, more than MS Paint, less than Photoshop" },
+      { token: "Blender", name: "Blender", desc: "3D modelling, animation, and rendering" },
+    ],
+  },
+  {
+    name: "Gaming",
+    apps: [
+      { token: "Steam", name: "Steam", desc: "Valve's PC gaming store and launcher" },
+      { token: "EpicGames", name: "Epic Games Launcher", desc: "Epic's game store and launcher" },
+      { token: "GOGGalaxy", name: "GOG Galaxy", desc: "GOG's game launcher, DRM-free focused" },
+      { token: "BattleNet", name: "Battle.net", desc: "Blizzard's game launcher" },
+      { token: "EAApp", name: "EA App", desc: "EA's game launcher" },
+      { token: "UbisoftConnect", name: "Ubisoft Connect", desc: "Ubisoft's game launcher" },
+    ],
+  },
+  {
+    name: "Security",
+    apps: [
+      { token: "Malwarebytes", name: "Malwarebytes", desc: "Malware scanning and removal" },
+      { token: "KeePassXC", name: "KeePassXC", desc: "Offline password manager" },
+      { token: "Bitwarden", name: "Bitwarden", desc: "Cloud-synced password manager" },
+    ],
+  },
+  {
+    name: "Productivity",
+    apps: [
+      { token: "LibreOffice", name: "LibreOffice", desc: "A free office suite, word processor and spreadsheets included" },
+      { token: "Notion", name: "Notion", desc: "Notes, docs, and project tracking" },
+      { token: "Obsidian", name: "Obsidian", desc: "Note-taking app built on local markdown files" },
+      { token: "Dropbox", name: "Dropbox", desc: "Cloud file storage and sync" },
+      { token: "AdobeReader", name: "Adobe Acrobat Reader", desc: "PDF reader" },
+      { token: "FoxitReader", name: "Foxit PDF Reader", desc: "Lighter alternative PDF reader" },
+      { token: "SumatraPDF", name: "Sumatra PDF", desc: "Minimal, fast PDF reader" },
     ],
   },
 ];
@@ -72,6 +127,7 @@ const categories = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>QuickStart</title>
     <meta name="description" content="Pick your apps, get one exe, install everything. An open source alternative to Ninite." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <div class="top-bar">
