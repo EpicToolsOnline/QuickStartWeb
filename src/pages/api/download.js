@@ -1,8 +1,9 @@
-export async function onRequestGet({ request }) {
+export const prerender = false;
+
+export async function GET({ request }) {
   const url = new URL(request.url);
   const appsParam = url.searchParams.get("apps") || "";
 
-  // Keep the filename safe: letters, numbers, +, -, commas only
   const safeApps = appsParam
     .split(",")
     .map((a) => a.trim())

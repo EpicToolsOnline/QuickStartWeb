@@ -4,26 +4,65 @@ import "../styles/base.css";
 import Logo from "../components/Logo.astro";
 import Footer from "../components/Footer.astro";
 
-// Same catalog as the Python app's apps.json, kept in sync by hand for now
-const apps = [
-  { token: "7zip", name: "7-Zip" },
-  { token: "Notepad++", name: "Notepad++" },
-  { token: "VLC", name: "VLC Media Player" },
-  { token: "Chrome", name: "Google Chrome" },
-  { token: "Firefox", name: "Mozilla Firefox" },
-  { token: "Discord", name: "Discord" },
-  { token: "Spotify", name: "Spotify" },
-  { token: "Steam", name: "Steam" },
-  { token: "VSCode", name: "Visual Studio Code" },
-  { token: "Git", name: "Git" },
-  { token: "OBS", name: "OBS Studio" },
-  { token: "GIMP", name: "GIMP" },
-  { token: "Slack", name: "Slack" },
-  { token: "Zoom", name: "Zoom" },
-  { token: "Audacity", name: "Audacity" },
-  { token: "PowerToys", name: "Microsoft PowerToys" },
-  { token: "LibreOffice", name: "LibreOffice" },
-  { token: "Thunderbird", name: "Mozilla Thunderbird" },
+const categories = [
+  {
+    name: "Utilities",
+    apps: [
+      { token: "7zip", name: "7-Zip", desc: "Open and create zip, rar, and other archive files" },
+      { token: "PowerToys", name: "Microsoft PowerToys", desc: "Extra window and productivity tools for Windows" },
+    ],
+  },
+  {
+    name: "Editors & Dev Tools",
+    apps: [
+      { token: "Notepad++", name: "Notepad++", desc: "A lightweight text and code editor" },
+      { token: "VSCode", name: "Visual Studio Code", desc: "Microsoft's code editor for pretty much any language" },
+      { token: "Git", name: "Git", desc: "Tracks changes to code over time" },
+    ],
+  },
+  {
+    name: "Browsers",
+    apps: [
+      { token: "Chrome", name: "Google Chrome", desc: "Google's web browser" },
+      { token: "Firefox", name: "Mozilla Firefox", desc: "An open source web browser" },
+    ],
+  },
+  {
+    name: "Communication",
+    apps: [
+      { token: "Discord", name: "Discord", desc: "Voice, video, and text chat for communities" },
+      { token: "Slack", name: "Slack", desc: "Team chat for work" },
+      { token: "Zoom", name: "Zoom", desc: "Video calls and meetings" },
+      { token: "Thunderbird", name: "Mozilla Thunderbird", desc: "A desktop email client" },
+    ],
+  },
+  {
+    name: "Media",
+    apps: [
+      { token: "VLC", name: "VLC Media Player", desc: "Plays almost any video or audio file" },
+      { token: "Audacity", name: "Audacity", desc: "Records and edits audio" },
+      { token: "OBS", name: "OBS Studio", desc: "Records or streams your screen" },
+      { token: "Spotify", name: "Spotify", desc: "Streams music and podcasts" },
+    ],
+  },
+  {
+    name: "Productivity",
+    apps: [
+      { token: "LibreOffice", name: "LibreOffice", desc: "A free office suite, word processor and spreadsheets included" },
+    ],
+  },
+  {
+    name: "Gaming",
+    apps: [
+      { token: "Steam", name: "Steam", desc: "Valve's PC gaming store and launcher" },
+    ],
+  },
+  {
+    name: "Design",
+    apps: [
+      { token: "GIMP", name: "GIMP", desc: "A free, open source image editor" },
+    ],
+  },
 ];
 ---
 
@@ -42,14 +81,23 @@ const apps = [
     <main>
       <p class="intro">Tick what you want, hit the button, run the exe. That's it.</p>
 
-      <div class="app-grid stack">
-        {apps.map((app) => (
-          <label class="card app-option">
-            <input type="checkbox" class="app-checkbox" data-token={app.token} />
-            {app.name}
-          </label>
-        ))}
-      </div>
+      {categories.map((category) => (
+        <section class="category">
+          <h2>{category.name}</h2>
+          <div class="app-grid">
+            {category.apps.map((app) => (
+              <label class="card app-option">
+                <input type="checkbox" class="app-checkbox" data-token={app.token} />
+                <span class="checkmark"></span>
+                <span class="app-text">
+                  <span class="app-name">{app.name}</span>
+                  <span class="app-desc">{app.desc}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </section>
+      ))}
 
       <button id="generate" class="button" disabled>
         Pick at least one app
@@ -75,25 +123,95 @@ const apps = [
 
   .intro {
     color: var(--color-text-muted);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-6);
+  }
+
+  .category {
+    margin-bottom: var(--space-6);
+  }
+
+  .category h2 {
+    font-size: 1rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-text-muted);
   }
 
   .app-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--space-3);
-    margin-bottom: var(--space-5);
   }
 
   .app-option {
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
+    align-items: flex-start;
+    gap: var(--space-3);
     cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .app-option:hover {
+    border-color: var(--color-accent);
+  }
+
+  .app-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkmark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-raised);
+    position: relative;
+  }
+
+  .app-checkbox:checked + .checkmark {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .app-checkbox:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color-accent-text);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .app-checkbox:focus-visible + .checkmark {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .app-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .app-name {
+    font-weight: 600;
+  }
+
+  .app-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
   }
 
   #generate {
     width: 100%;
+    margin-top: var(--space-4);
   }
 
   #generate:disabled {
