@@ -426,7 +426,10 @@ const categories = [
 
     button.disabled = false;
     button.textContent = `Download QuickStart (${picked.length} apps)`;
-    button.setAttribute("data-href", `/api/download?apps=${picked.join(",")}`);
+    button.setAttribute(
+      "data-href",
+      `/api/download?apps=${picked.map(encodeURIComponent).join(",")}`
+    );
   }
 
   checkboxes.forEach((box) => box.addEventListener("change", updateButton));
