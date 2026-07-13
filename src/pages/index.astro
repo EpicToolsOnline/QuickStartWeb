@@ -71,7 +71,7 @@ const categories = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>QuickStart</title>
-    <meta name="description" content="Pick your apps, get one exe, install everything. Open source." />
+    <meta name="description" content="Pick your apps, get one exe, install everything. An open source alternative to Ninite." />
   </head>
   <body>
     <div class="top-bar">
@@ -79,14 +79,44 @@ const categories = [
     </div>
 
     <main>
-      <p class="intro">Tick what you want, hit the button, run the exe. That's it.</p>
+      <p class="intro">
+        QuickStart is an open source, free alternative to Ninite. Ninite lets you tick a
+        list of apps and get one installer that sets them all up silently, no clicking
+        through a wizard for each one, no toolbars, no bundled junk. QuickStart does the
+        same thing, but the code is fully open, anyone can see exactly what it does, and
+        anyone can add apps or fix bugs. Pick what you want below, hit download, and run
+        the file it gives you, that single exe installs everything you picked using
+        Windows' own package manager (winget) in the background.
+      </p>
+
+      <label for="app-search" class="sr-only">Search apps</label>
+      <input
+        type="search"
+        class="input search-bar"
+        placeholder="e.g. discord, browser, editor..."
+        id="app-search"
+      />
+
+      <div class="category-filters" role="group" aria-label="Filter by category">
+        <button type="button" class="category-pill" data-category="" aria-pressed="true">All</button>
+        {categories.map((category) => (
+          <button type="button" class="category-pill" data-category={category.name.toLowerCase()} aria-pressed="false">
+            {category.name}
+          </button>
+        ))}
+      </div>
 
       {categories.map((category) => (
-        <section class="category">
+        <section class="category" data-category-section={category.name.toLowerCase()}>
           <h2>{category.name}</h2>
           <div class="app-grid">
             {category.apps.map((app) => (
-              <label class="card app-option">
+              <label
+                class="card app-option"
+                data-name={app.name.toLowerCase()}
+                data-desc={app.desc.toLowerCase()}
+                data-category={category.name.toLowerCase()}
+              >
                 <input type="checkbox" class="app-checkbox" data-token={app.token} />
                 <span class="checkmark"></span>
                 <span class="app-text">
@@ -98,6 +128,8 @@ const categories = [
           </div>
         </section>
       ))}
+
+      <p id="no-results" class="no-results" hidden>Nothing matches that search.</p>
 
       <button id="generate" class="button" disabled>
         Pick at least one app
@@ -123,7 +155,42 @@ const categories = [
 
   .intro {
     color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+    line-height: 1.6;
+  }
+
+  .search-bar {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
     margin-bottom: var(--space-6);
+  }
+
+  .category-pill {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+  }
+
+  .category-pill:hover {
+    color: var(--color-text);
+  }
+
+  .category-pill[aria-pressed="true"] {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
   .category {
@@ -209,6 +276,12 @@ const categories = [
     color: var(--color-text-muted);
   }
 
+  .no-results {
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: var(--space-5) 0;
+  }
+
   #generate {
     width: 100%;
     margin-top: var(--space-4);
@@ -221,6 +294,46 @@ const categories = [
 </style>
 
 <script>
+  const searchInput = document.getElementById("app-search") as HTMLInputElement;
+  const pills = document.querySelectorAll<HTMLButtonElement>(".category-pill");
+  const cards = document.querySelectorAll<HTMLElement>(".app-option");
+  const sections = document.querySelectorAll<HTMLElement>(".category");
+  const noResults = document.getElementById("no-results") as HTMLElement;
+
+  let activeCategory = "";
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+    let anyVisible = false;
+
+    for (const card of cards) {
+      const haystack = `${card.dataset.name} ${card.dataset.desc}`;
+      const matchesSearch = query.length === 0 || haystack.includes(query);
+      const matchesCategory = activeCategory === "" || card.dataset.category === activeCategory;
+      const visible = matchesSearch && matchesCategory;
+      card.hidden = !visible;
+      if (visible) anyVisible = true;
+    }
+
+    for (const section of sections) {
+      const sectionCards = section.querySelectorAll<HTMLElement>(".app-option");
+      const hasVisibleCard = Array.from(sectionCards).some((c) => !c.hidden);
+      section.hidden = !hasVisibleCard;
+    }
+
+    noResults.hidden = anyVisible;
+  }
+
+  searchInput.addEventListener("input", applyFilters);
+
+  for (const pill of pills) {
+    pill.addEventListener("click", () => {
+      activeCategory = pill.dataset.category ?? "";
+      for (const p of pills) p.setAttribute("aria-pressed", String(p === pill));
+      applyFilters();
+    });
+  }
+
   const checkboxes = document.querySelectorAll<HTMLInputElement>(".app-checkbox");
   const button = document.getElementById("generate") as HTMLButtonElement;
 
