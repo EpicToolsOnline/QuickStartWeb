@@ -13,13 +13,25 @@ export async function GET({ request }) {
     ? `QuickStart ${safeApps.join(" ")}.exe`
     : "QuickStart.exe";
 
+  const githubHeaders = {
+    "User-Agent": "QuickStart-Website",
+    "Accept": "application/vnd.github+json",
+  };
+
+  if (import.meta.env.GITHUB_TOKEN) {
+    githubHeaders["Authorization"] = `Bearer ${import.meta.env.GITHUB_TOKEN}`;
+  }
+
   const releaseResponse = await fetch(
     "https://api.github.com/repos/EpicToolsOnline/QuickStart/releases/latest",
-    { headers: { "User-Agent": "QuickStart-Website" } }
+    { headers: githubHeaders }
   );
 
   if (!releaseResponse.ok) {
-    return new Response("Could not reach GitHub releases.", { status: 502 });
+    return new Response(
+      `Could not reach GitHub releases. Status: ${releaseResponse.status}`,
+      { status: 502 }
+    );
   }
 
   const release = await releaseResponse.json();
