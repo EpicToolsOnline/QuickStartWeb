@@ -76,7 +76,7 @@ const categories = [
   <body>
     <div class="top-bar">
       <Logo />
-      <p class="powered-by">Powered by <span class="brand">EpicToolsOnline</span></p>
+      <p class="powered-by">Powered by <a href="https://epictoolsonline.com" class="brand">EpicToolsOnline</a></p>
     </div>
 
     <main>
@@ -159,6 +159,11 @@ const categories = [
   .powered-by .brand {
     color: var(--color-accent);
     font-weight: 700;
+    text-decoration: none;
+  }
+
+  .powered-by .brand:hover {
+    text-decoration: underline;
   }
 
   main {
