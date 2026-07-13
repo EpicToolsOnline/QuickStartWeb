@@ -7,6 +7,7 @@ import Footer from "../components/Footer.astro";
 const categories = [
   {
     name: "Utilities",
+    keywords: ["utility", "utilities", "tool", "tools", "system tool", "maintenance", "cleanup", "cleaner", "archive", "zip", "unzip", "screenshot", "benchmark", "hardware info", "usb", "flash drive", "bootable"],
     apps: [
       { token: "7zip", name: "7-Zip", desc: "Open and create zip, rar, and other archive files" },
       { token: "PowerToys", name: "Microsoft PowerToys", desc: "Extra window and productivity tools for Windows" },
@@ -26,6 +27,7 @@ const categories = [
   },
   {
     name: "Editors & Dev Tools",
+    keywords: ["dev", "developer", "development", "coding", "code editor", "ide", "programming", "software development", "javascript", "java", "virtual machine", "vm", "containers", "api testing"],
     apps: [
       { token: "Notepad++", name: "Notepad++", desc: "A lightweight text and code editor" },
       { token: "VSCode", name: "Visual Studio Code", desc: "Microsoft's code editor for pretty much any language" },
@@ -45,6 +47,7 @@ const categories = [
   },
   {
     name: "Browsers",
+    keywords: ["browser", "browsers", "internet", "web", "surf the web", "surfing", "web browsing"],
     apps: [
       { token: "Chrome", name: "Google Chrome", desc: "Google's web browser" },
       { token: "Firefox", name: "Mozilla Firefox", desc: "An open source web browser" },
@@ -55,6 +58,7 @@ const categories = [
   },
   {
     name: "Communication",
+    keywords: ["chat", "messaging", "messenger", "talk", "call", "voice call", "video call", "video chat", "text", "texting", "communication"],
     apps: [
       { token: "Discord", name: "Discord", desc: "Voice, video, and text chat for communities" },
       { token: "Slack", name: "Slack", desc: "Team chat for work" },
@@ -69,6 +73,7 @@ const categories = [
   },
   {
     name: "Media",
+    keywords: ["media", "video", "audio", "music player", "screen recording", "streaming", "video editing", "audio editing", "podcast"],
     apps: [
       { token: "VLC", name: "VLC Media Player", desc: "Plays almost any video or audio file" },
       { token: "Audacity", name: "Audacity", desc: "Records and edits audio" },
@@ -79,6 +84,7 @@ const categories = [
   },
   {
     name: "Design",
+    keywords: ["design", "art", "drawing", "illustration", "graphics", "photo editing", "image editing", "3d", "animation", "modelling"],
     apps: [
       { token: "GIMP", name: "GIMP", desc: "A free, open source image editor" },
       { token: "Inkscape", name: "Inkscape", desc: "Vector graphics editor" },
@@ -89,6 +95,7 @@ const categories = [
   },
   {
     name: "Gaming",
+    keywords: ["game", "games", "gaming", "launcher", "game launcher", "play games"],
     apps: [
       { token: "Steam", name: "Steam", desc: "Valve's PC gaming store and launcher" },
       { token: "EpicGames", name: "Epic Games Launcher", desc: "Epic's game store and launcher" },
@@ -100,6 +107,7 @@ const categories = [
   },
   {
     name: "Security",
+    keywords: ["security", "antivirus", "malware", "password", "privacy", "encryption", "protect"],
     apps: [
       { token: "Malwarebytes", name: "Malwarebytes", desc: "Malware scanning and removal" },
       { token: "KeePassXC", name: "KeePassXC", desc: "Offline password manager" },
@@ -108,6 +116,7 @@ const categories = [
   },
   {
     name: "Productivity",
+    keywords: ["productivity", "office", "notes", "note taking", "documents", "pdf", "cloud storage", "file sync", "work"],
     apps: [
       { token: "LibreOffice", name: "LibreOffice", desc: "A free office suite, word processor and spreadsheets included" },
       { token: "Notion", name: "Notion", desc: "Notes, docs, and project tracking" },
@@ -125,7 +134,7 @@ const categories = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuickStart - EpicToolsOnline</title>
+    <title>QuickStart</title>
     <meta name="description" content="Pick your apps, get one exe, install everything. An open source alternative to Ninite." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
@@ -173,6 +182,7 @@ const categories = [
                 data-name={app.name.toLowerCase()}
                 data-desc={app.desc.toLowerCase()}
                 data-category={category.name.toLowerCase()}
+                data-keywords={category.keywords.join(" ").toLowerCase()}
               >
                 <input type="checkbox" class="app-checkbox" data-token={app.token} />
                 <span class="checkmark"></span>
@@ -382,7 +392,7 @@ const categories = [
     let anyVisible = false;
 
     for (const card of cards) {
-      const haystack = `${card.dataset.name} ${card.dataset.desc}`;
+      const haystack = `${card.dataset.name} ${card.dataset.desc} ${card.dataset.keywords}`;
       const matchesSearch = query.length === 0 || haystack.includes(query);
       const matchesCategory = activeCategory === "" || card.dataset.category === activeCategory;
       const visible = matchesSearch && matchesCategory;

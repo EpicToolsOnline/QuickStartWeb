@@ -20,13 +20,40 @@ If you add an app to `index.astro` here without also adding it to `apps.json` ov
 
 ### Adding an app to the site
 
-Add an entry to the matching category array in `src/pages/index.astro`:
+Each app lives inside a category object in the `categories` array in `src/pages/index.astro`. An entry looks like this:
 
 ```js
 { token: "Firefox", name: "Mozilla Firefox", desc: "An open source web browser" }
 ```
 
 `token` must exactly match the key used for that same app in `apps.json` over in the QuickStart app repo, otherwise the download link won't work. `desc` should be one short plain sentence, no jargon, explaining what the app actually does for someone who's never heard of it.
+
+### Deciding which category an app belongs in
+
+Current categories: **Utilities, Editors & Dev Tools, Browsers, Communication, Media, Design, Gaming, Security, Productivity.**
+
+Pick based on what the app is primarily *for*, not every possible use case. A few rules of thumb, in order:
+
+1. **Does an existing category obviously fit?** If you're adding another web browser, it goes in Browsers, full stop, don't overthink it. Most apps have one clear home.
+2. **When an app straddles two categories, pick the one a first-time user would search for it under.** For example, Postman could arguably be "Utilities" or "Dev Tools," but developers specifically look for it as a dev tool, so it's in Editors & Dev Tools, not Utilities.
+3. **Look at what's already in that category for a sanity check.** If you're adding a password manager, Security already has KeePassXC and Bitwarden in it, that's your signal, don't invent a new "Passwords" category for one more entry.
+4. **Only create a brand new category if an app genuinely doesn't fit any existing one, and you'd expect more apps like it later.** A single odd app doesn't need its own category, that just clutters the filter pills for one entry. If you do add a new category, remember every app inside it shares one `keywords` list (see below), so make sure the new category name and its apps are coherent as a group.
+
+### Category keywords (for search)
+
+Each category also has a `keywords` array sitting next to its `apps` array:
+
+```js
+{
+  name: "Browsers",
+  keywords: ["browser", "browsers", "internet", "web", "surf the web", "surfing", "web browsing"],
+  apps: [ ... ],
+}
+```
+
+These are what make the search bar find apps by context, not just exact name matches, so typing "browsers" or "surf the web" finds every app in that category even if those exact words aren't in any individual app's description.
+
+If you're adding an app to an **existing** category, you don't need to touch its keywords, they already cover that category. If you're creating a **new** category, add 5-10 keywords covering how someone might describe that category in plain language, not just the category name itself. Think about what a non-technical person searching would actually type, not just formal terminology.
 
 ### Code changes
 
